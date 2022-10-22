@@ -2,13 +2,17 @@ package org.internship.testing;
 
 import Actions.Clicker;
 import Actions.Selector;
+import Managers.TableManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
 
@@ -17,6 +21,7 @@ public class Main {
     private static String EMP_MANAGER_BTN = "/html/body/div/div/button[1]";
     private static String COLOR_MAGIC_BTN = "/html/body/div/div/button[2]";
     private static String ADD_EMP_BTN = "add";
+    private static String EMP_TABLE = "tbl_details";
 
     private static String[] ADD_EMP_FORM = new String[] {
       "emp_id","emp_name","emp_mail","emp_designation","emp_salary"
@@ -48,30 +53,45 @@ public class Main {
         mouse.click(By.xpath(EMP_MANAGER_BTN));
         // fill the form for adding new employee...
 
-        WebElement[] form_fields = new WebElement[] {
-                driver.findElement(By.id(ADD_EMP_FORM[0])),
-                driver.findElement(By.id(ADD_EMP_FORM[1])),
-                driver.findElement(By.id(ADD_EMP_FORM[2])),
-                driver.findElement(By.id(ADD_EMP_FORM[4]))
-        };
-        Selector dropdown = new Selector(driver, By.id(ADD_EMP_FORM[3]));
+        for (int j=0; j<5; j++) {
+            try {
+                WebElement[] form_fields = new WebElement[] {
+                        driver.findElement(By.id(ADD_EMP_FORM[0])),
+                        driver.findElement(By.id(ADD_EMP_FORM[1])),
+                        driver.findElement(By.id(ADD_EMP_FORM[2])),
+                        driver.findElement(By.id(ADD_EMP_FORM[4]))
+                };
+                Selector dropdown = new Selector(driver, By.id(ADD_EMP_FORM[3]));
 
-        Random r = new Random();
-        String id = String.valueOf(r.nextInt(100));
-        String name = ADD_EMP_DATA[0][r.nextInt(ADD_EMP_DATA[0].length)];
-        String mail = ADD_EMP_DATA[1][r.nextInt(ADD_EMP_DATA[1].length)];
-        dropdown.Select_Ui.selectByVisibleText(DESIGNATIONS[r.nextInt(DESIGNATIONS.length)]);
-        String salary = ADD_EMP_DATA[2][r.nextInt(ADD_EMP_DATA[2].length)];
-        String[] values = new String[] {
-                id, name, mail, salary
-        };
-        for(int j=0; j<r.nextInt(5); j++) {
-            for(int i=0; i< form_fields.length; i++) {
-                form_fields[i].sendKeys(values[i]);
+                Random r = new Random();
+                String id = String.valueOf(r.nextInt(100));
+                String name = ADD_EMP_DATA[0][r.nextInt(ADD_EMP_DATA[0].length)];
+                String mail = ADD_EMP_DATA[1][r.nextInt(ADD_EMP_DATA[1].length)];
+                dropdown.Select_Ui.selectByVisibleText(DESIGNATIONS[r.nextInt(DESIGNATIONS.length)]);
+                String salary = ADD_EMP_DATA[2][r.nextInt(ADD_EMP_DATA[2].length)];
+                String[] values = new String[] {
+                        id, name, mail, salary
+                };
+                for(int i=0; i< form_fields.length; i++) {
+                    form_fields[i].sendKeys(values[i]);
+                }
+                mouse.click(By.id(ADD_EMP_BTN));
+            } catch (UnhandledAlertException e) {
+                driver.switchTo().alert().dismiss();
+            } finally {
+                continue;
             }
-            mouse.click(By.id(ADD_EMP_BTN));
-            Thread.sleep(2000);
         }
+
+        TableManager manager = new TableManager(driver,By.id(EMP_TABLE));
+        String[] formatter = new String[] {
+                "%20s","%20s","%30s","%20s","%20s"
+        };
+        manager.printAllRows(By.xpath("./child::thead/*"),formatter);
+
+
+        Scanner scan = new Scanner(System.in);
+        Character c = scan.next().charAt(0);
 
         // closing and quiting...
         driver.close();
