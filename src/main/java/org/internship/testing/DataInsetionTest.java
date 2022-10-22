@@ -8,13 +8,12 @@ import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.Select;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Main {
+public class DataInsetionTest {
 
     private static String DRIVER_PATH = "E:\\Software\\chromedriver.exe";
     private static String SITE_URL = "https://henilmistry.github.io/Internship-Tasks/";
@@ -53,7 +52,14 @@ public class Main {
         mouse.click(By.xpath(EMP_MANAGER_BTN));
         // fill the form for adding new employee...
 
+        // all ids...
+        ArrayList<Integer> all_id = new ArrayList<>();
+        // all rows data...
+        ArrayList<ArrayList<String>> rows = new ArrayList<>();
+
+        // adding random five employees...
         for (int j=0; j<5; j++) {
+            ArrayList<String> row = new ArrayList<>();
             try {
                 WebElement[] form_fields = new WebElement[] {
                         driver.findElement(By.id(ADD_EMP_FORM[0])),
@@ -64,31 +70,50 @@ public class Main {
                 Selector dropdown = new Selector(driver, By.id(ADD_EMP_FORM[3]));
 
                 Random r = new Random();
-                String id = String.valueOf(r.nextInt(100));
+                int id_no = 5-j;
+
+                while (all_id.contains(id_no)) {
+                    id_no = r.nextInt(100);
+                }
+                all_id.add(id_no);
+                String id = String.valueOf(id_no);
                 String name = ADD_EMP_DATA[0][r.nextInt(ADD_EMP_DATA[0].length)];
                 String mail = ADD_EMP_DATA[1][r.nextInt(ADD_EMP_DATA[1].length)];
-                dropdown.Select_Ui.selectByVisibleText(DESIGNATIONS[r.nextInt(DESIGNATIONS.length)]);
+                String designation = DESIGNATIONS[r.nextInt(DESIGNATIONS.length)];
+                dropdown.Select_Ui.selectByVisibleText(designation);
                 String salary = ADD_EMP_DATA[2][r.nextInt(ADD_EMP_DATA[2].length)];
                 String[] values = new String[] {
                         id, name, mail, salary
                 };
+                row.add(id);
+                row.add(name);
+                row.add(mail);
+                row.add(designation);
+                row.add(salary);
+                rows.add(0, row);
+                Thread.sleep(1000);
                 for(int i=0; i< form_fields.length; i++) {
                     form_fields[i].sendKeys(values[i]);
                 }
                 mouse.click(By.id(ADD_EMP_BTN));
             } catch (UnhandledAlertException e) {
+                Thread.sleep(2000);
                 driver.switchTo().alert().dismiss();
             } finally {
                 continue;
             }
         }
 
+        // creating table manager's object...
         TableManager manager = new TableManager(driver,By.id(EMP_TABLE));
         String[] formatter = new String[] {
                 "%20s","%20s","%30s","%20s","%20s"
         };
-        manager.printAllRows(By.xpath("./child::thead/*"),formatter);
 
+        // printing all rows...
+        manager.printAllRows(By.xpath("./child::thead/*"),formatter);
+        // verifying all rows...
+        manager.verifyLastRows(rows,By.xpath("./child::thead/*"),rows.size());
 
         Scanner scan = new Scanner(System.in);
         Character c = scan.next().charAt(0);
