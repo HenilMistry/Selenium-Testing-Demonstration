@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-public class DataInsetionTest {
+public class DataInsertionTest {
 
     private static String DRIVER_PATH = "E:\\Software\\chromedriver.exe";
     private static String SITE_URL = "https://henilmistry.github.io/Internship-Tasks/";
