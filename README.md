@@ -33,7 +33,7 @@ I have created the Packages to help with the testing. Mainly I have created pack
     dropdown.Select_Ui.selectByVisibleText("Hello");
     ```
 ### Managers 
-- Table Manager
+- #### Table Manager
   - It will be very helpful when you need to deal with tables in the Blackbox testing. Any application will take i/p as data
   and will produce some o/p, as a human by our eyes we just observe the o/p, but we talk about computers. They cannot do that
   so this class will help you achieve that vision of dealing with tables.
@@ -59,3 +59,17 @@ I have created the Packages to help with the testing. Mainly I have created pack
     // it will loop through all tr tags and inside all tr, it will fetch data from all td tags
     manager.printAllRows(By.xpath("./child::thead/*"),formatter);
   ```
+- #### FormManager
+  - It will be very helpful to manage data insertion in forms by just calling one function and much more.
+  Currently, it supports only normal text fields and dropdowns but sooner I will add the functionality for checkboxes,
+  File uploads, Color pickers, Date pickers, etc.
+  ````
+    
+    // get the instance of web driver...
+    WebDriver driver = new ChromeDriver();
+
+    // get the instance of form manager...
+    FormManager empDetails = new FormManager(driver);
+    
+  ````
+  - You can explore more on this inside **"FormManagerTest.java"** file inside Main Package.
