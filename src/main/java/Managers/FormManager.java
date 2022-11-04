@@ -12,6 +12,16 @@ import org.openqa.selenium.WebElement;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * <p>
+ *     {@code FormManager} will do the management of form. By adding fields, checkboxes and other web elements to feeding
+ *     data into them all will be done very easily.
+ * </p>
+ *
+ * @author HENIL
+ * @since 04-11-22
+ * @version 1.0
+ * */
 public class FormManager {
     WebDriver driver;
     TreeMap<String, By> webFields;
