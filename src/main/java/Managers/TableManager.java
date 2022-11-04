@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -14,7 +13,7 @@ import java.util.List;
  *
  * @last_modified 22nd October 2022
  * @author HENIL MISTRY
- * @time 20th October 2022
+ * @since  20th October 2022
  * */
 public class TableManager {
     WebDriver driver;

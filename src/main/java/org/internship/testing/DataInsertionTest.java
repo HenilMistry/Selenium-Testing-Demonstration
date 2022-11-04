@@ -15,9 +15,9 @@ import java.util.Scanner;
 
 public class DataInsertionTest {
 
-    private static String DRIVER_PATH = "E:\\Software\\chromedriver.exe";
-    private static String SITE_URL = "https://henilmistry.github.io/Internship-Tasks/";
-    private static String EMP_MANAGER_BTN = "/html/body/div/div/button[1]";
+    public static String DRIVER_PATH = "E:\\Software\\chromedriver.exe";
+    public static String SITE_URL = "https://henilmistry.github.io/Internship-Tasks/";
+    public static String EMP_MANAGER_BTN = "/html/body/div/div/button[1]";
     private static String COLOR_MAGIC_BTN = "/html/body/div/div/button[2]";
     private static String ADD_EMP_BTN = "add";
     private static String EMP_TABLE = "tbl_details";
