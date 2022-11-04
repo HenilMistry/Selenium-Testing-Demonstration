@@ -4,7 +4,7 @@ I have created the Packages to help with the testing. Mainly I have created pack
 
 ## Packages Included
 ### Actions
-- Clicker Class
+- #### Clicker Class
   - It helps to mimic click action on any **'WebElement'** that you may need to perform. It will accept WebDriver as
     constructor, and you can use `click()` method to pass `By` as a parameter, and you can perform click event by just
     following below code.
@@ -18,7 +18,7 @@ I have created the Packages to help with the testing. Mainly I have created pack
         mouse.click(By.xpath("<xpath_string_of_element>"));
     ```    
 
-  - Selector Class
+- #### Selector Class
     - It will be helpful to when you need to deal with dropdown menus in forms. It is most likely to be seen that many forms
     includes dropdown in it. To easily deal with `Dropdown` or `select` you can use this class to write less code and be productive.
     
