@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -74,7 +75,18 @@ public class FormManager {
         }
     }
 
-    public void selectDropdowns(TreeMap<String, String> dataMapping) throws FieldNotFoundException, NotValidOption {
+    public void insertDataIn(String key, String data) {
+        TreeMap<String, String> dataMapping = new TreeMap<>();
+        dataMapping.put(key,data);
+        try {
+            this.insertData(dataMapping);
+        } catch (FieldNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void selectDropdowns(LinkedHashMap<String, String> dataMapping, String option, boolean delay) throws FieldNotFoundException, NotValidOption {
+        FormManager.DROPDOWN_SELECTION = option;
         for (Map.Entry<String, String> data : dataMapping.entrySet()) {
             if (this.webDropdowns.get(data.getKey())==null) {
                 throw new FieldNotFoundException();
@@ -89,7 +101,36 @@ public class FormManager {
                 } else {
                     throw new NotValidOption("DROPDOWN_SELECTION");
                 }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
+        }
+    }
+
+    public void selectDropdowns(LinkedHashMap<String, String> dataMapping,String option) throws FieldNotFoundException, NotValidOption {
+        this.selectDropdowns(dataMapping, option, false);
+    }
+
+    public void selectDropdowns(LinkedHashMap<String, String> dataMapping, boolean delay) throws FieldNotFoundException, NotValidOption {
+        this.selectDropdowns(dataMapping, FormManager.DROPDOWN_SELECTION, delay);
+    }
+
+    public void selectDropdowns(LinkedHashMap<String, String> dataMapping) throws FieldNotFoundException, NotValidOption {
+        this.selectDropdowns(dataMapping, false);
+    }
+
+    public void selectDropdown(String key, String value,String option) {
+        LinkedHashMap<String, String> mapping = new LinkedHashMap<>();
+        mapping.put(key, value);
+        try {
+            this.selectDropdowns(mapping,option,false);
+        } catch (FieldNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (NotValidOption e) {
+            throw new RuntimeException(e);
         }
     }
 
