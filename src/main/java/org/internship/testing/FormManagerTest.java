@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.util.LinkedHashMap;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -76,7 +77,7 @@ public class FormManagerTest {
         // select DROPDOWN_SELECTION property as you want...
         FormManager.DROPDOWN_SELECTION = FormManager.DROPDOWN_BY_VISIBLE_TEXT;
         // select dropdown...
-        TreeMap<String, String> keyToDropdown = new TreeMap<>();
+        LinkedHashMap<String, String> keyToDropdown = new LinkedHashMap<>();
         keyToDropdown.put(keyDropdowns[0], "Intern");
         try {
             empDetails.selectDropdowns(keyToDropdown);
