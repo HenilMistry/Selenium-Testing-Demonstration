@@ -17,6 +17,7 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 public class ResultFetchingForCharusat {
+    // E:\Software\chromedriver.exe
     public static String DRIVER_PATH = "E:\\Software\\chromedriver.exe";
     public static String SITE_URL = "https://charusat.edu.in:912/Uniexamresult/";
     public static String[] dropdownKeys = new String[] {
@@ -53,7 +54,7 @@ public class ResultFetchingForCharusat {
 
         // adding dropdown data...
         String[] data = new String[] {
-          "CSPIT","BTECH(CE)","4","MAY 2022"
+          "CSPIT","BTECH(CE)","5","NOVEMBER 2022"
         };
         LinkedHashMap<String, String> dropdownData = new LinkedHashMap<>();
         for (int i=0; i< dropdownKeys.length; i++) {
@@ -67,25 +68,27 @@ public class ResultFetchingForCharusat {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        for (int i=1; i<5; i++) {
-            try {
-                String rollno = String.format("20CE%03d",i);
-                markSheetForm.selectDropdowns(dropdownData, FormManager.DROPDOWN_BY_VISIBLE_TEXT);
-                markSheetForm.insertDataIn(idFieldKey, rollno);
-                markSheetForm.clickOn(submitBtnKey);
-                Thread.sleep(1000);
-                WebElement sgpa = driver.findElement(By.id(SGPA_ID));
-                WebElement cgpa = driver.findElement(By.id(CGPA_ID));
-                writer.write(rollno+" "+sgpa.getText()+" "+cgpa.getText()+"\n");
-                driver.get(SITE_URL);
-            } catch (FieldNotFoundException e) {
-                throw new RuntimeException(e);
-            } catch (NotValidOption e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+        for (int i=1; i<=115; i++) {
+            if(i!=18) {
+                try {
+                    String rollno = String.format("20CE%03d",i);
+                    markSheetForm.selectDropdowns(dropdownData, FormManager.DROPDOWN_BY_VISIBLE_TEXT);
+                    markSheetForm.insertDataIn(idFieldKey, rollno);
+                    markSheetForm.clickOn(submitBtnKey);
+                    Thread.sleep(1000);
+                    WebElement sgpa = driver.findElement(By.id(SGPA_ID));
+                    WebElement cgpa = driver.findElement(By.id(CGPA_ID));
+                    writer.write(rollno+" "+sgpa.getText()+" "+cgpa.getText()+"\n");
+                    driver.get(SITE_URL);
+                } catch (FieldNotFoundException e) {
+                    throw new RuntimeException(e);
+                } catch (NotValidOption e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
 
